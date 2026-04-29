@@ -11,4 +11,8 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="10.0.7" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Ipma.Domain\Ipma.Domain.csproj" />
+    </ItemGroup>
+
 </Project>
