@@ -1,11 +1,26 @@
-﻿namespace Ipma.Domain.Entities;
+﻿using Ipma.Domain.Entities.Commons;
+using Ipma.Domain.Entities.Owned;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-public record Aplikant : DaneOsobowe
+namespace Ipma.Domain.Entities;
+
+public sealed record Aplikant : KontoUżytkownika
 {
-    // Kompozycja zamiast wielodziedziczenia
-    public required Organizacja Organizacja { get; init; }
-    public required DaneOsobowe DaneOsobowe { get; init; }
+    public required bool StatusCzłonkaIpma { get; set; }
+    
+    public required Organizacja Organizacja { get; set; }
+    public required DaneOsobowe DaneOsobowe { get; set; }
+    
+    public ICollection<Projekt> Projekty { get; set; } = new List<Projekt>();
+}
 
-    public required bool StatusCzłonkaIPMA { get; init; }
-    public ICollection<Projekt> Projekty { get; init; } = new List<Projekt>();
+public class AplikantConfiguration : BaseEntityConfiguration<Aplikant>
+{
+    public override void Configure(EntityTypeBuilder<Aplikant> builder)
+    {
+        base.Configure(builder);
+
+        builder.OwnsOne(x => x.Organizacja);
+        builder.OwnsOne(x => x.DaneOsobowe);
+    }
 }

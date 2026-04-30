@@ -1,38 +1,64 @@
 using Ipma.Domain.Entities;
+using Ipma.Domain.Entities.Commons;
+using Ipma.Domain.Entities.Owned;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Ipma.Infrastructure;
 
-public class IpmaDbContext : DbContext
+public sealed class IpmaDbContext : DbContext
 {
-    public DbSet<KontoUżytkownika> KontaUżytkowników { get; set; }
-    public DbSet<AudytowalnaEncja> AudytowalneEncje { get; set; }
-    public DbSet<OcenaProjektu> OcenyProjektu { get; set; }
-    public DbSet<Aplikant> Aplikanci { get; set; }
-    public DbSet<Asesor> Asesorzy { get; set; }
-    public DbSet<CzłonekJury> CzłonkowieJury { get; set; }
-    public DbSet<Kategoria> Kategorie { get; set; }
-    public DbSet<Organizacja> Organizacje { get; set; }
-    public DbSet<Projekt> Projekty { get; set; }
-    public DbSet<EdycjaKonkursu> EdycjeKonkursu { get; set; }
-    public DbSet<Harmonogram> Harmonogramy { get; set; }
-    public DbSet<WniosekAplikacyjny> WnioskiAplikacyjne { get; set; }
-    public DbSet<RaportZWizyty> RaportyZWizyty { get; set; }
-    public DbSet<RaportAplikacyjny> RaportyAplikacyjne { get; set; }
-    public DbSet<OcenaKońcowa> OcenyKońcowe { get; set; }
-    public DbSet<OcenaWstępna> OcenyWstępne { get; set; }
-    public DbSet<OcenaIndywidualna> OcenyIndywidualne { get; set; }
-    public DbSet<EkspertIPMA> EksperciIPMA { get; set; }
-    public DbSet<BiuroNagrody> BiuraNagrody { get; set; }
-    public DbSet<UmowaWspółpracy> UmowyWspółpracy { get; set; }
-    public DbSet<OpłataZgłoszeniowa> OpłatyZgłoszeniowe { get; set; }
-
-    public IpmaDbContext(DbContextOptions options) : base(options)
+    private readonly TimeProvider _timeProvider;
+    
+    public IpmaDbContext(DbContextOptions options, TimeProvider timeProvider) : base(options)
     {
+        _timeProvider = timeProvider;
+        
+        ChangeTracker.StateChanged += UpdateTimestamps;
+        ChangeTracker.Tracked += UpdateTimestamps;
     }
+    
+    public DbSet<Aplikant> Aplikanci { get; init; }
+    public DbSet<Asesor> Asesorzy { get; init; }
+    public DbSet<BiuroNagrody> BiuraNagrody { get; init; }
+    public DbSet<CzłonekJury> CzłonkowieJury { get; init; }
+    public DbSet<EdycjaKonkursu> EdycjeKonkursu { get; init; }
+    public DbSet<EkspertIpma> EksperciIpma { get; init; }
+    public DbSet<Harmonogram> Harmonogramy { get; init; }
+    public DbSet<Kategoria> Kategorie { get; init; }
+    public DbSet<OcenaIndywidualna> OcenyIndywidualne { get; init; }
+    public DbSet<OcenaKońcowa> OcenyKońcowe { get; init; }
+    public DbSet<OcenaWstępna> OcenyWstępne { get; init; }
+    public DbSet<OpłataZgłoszeniowa> OpłatyZgłoszeniowe { get; init; }
+    public DbSet<Projekt> Projekty { get; init; }
+    public DbSet<RaportAplikacyjny> RaportyAplikacyjne { get; init; }
+    public DbSet<RaportZWizyty> RaportyZWizyty { get; init; }
+    public DbSet<UmowaWspółpracy> UmowyWspółpracy { get; init; }
+    public DbSet<WniosekAplikacyjny> WnioskiAplikacyjne { get; init; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+        
+        builder.ApplyConfigurationsFromAssembly(typeof(BaseEntityConfiguration<>).Assembly);
+    }
+    
+    private void UpdateTimestamps(object? sender, EntityEntryEventArgs e)
+    {
+        if (e.Entry.Entity is not ITimeTrackable timeTrackable)
+        {
+            return;
+        }
+
+        switch (e.Entry.State)
+        {
+            case EntityState.Added:
+                timeTrackable.CreatedAt = _timeProvider.GetUtcNow();
+                timeTrackable.UpdatedAt = _timeProvider.GetUtcNow();
+                return;
+            case EntityState.Modified:
+                timeTrackable.UpdatedAt = _timeProvider.GetUtcNow();
+                return;
+        }
     }
 }

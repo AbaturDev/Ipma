@@ -1,6 +1,6 @@
-﻿namespace Ipma.Domain.Entities;
+﻿namespace Ipma.Domain.Entities.Commons;
 
-public abstract record OcenaProjektu
+public abstract record OcenaProjektu : BaseEntity
 {
     public required decimal WynikObszarLudzieICel { get; init; }
     public required decimal WynikObszarProcesyIZasoby { get; init; }

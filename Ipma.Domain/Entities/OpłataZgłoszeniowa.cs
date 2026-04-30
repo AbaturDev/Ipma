@@ -1,8 +1,26 @@
-﻿namespace Ipma.Domain.Entities;
+﻿using Ipma.Domain.Entities.Commons;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-public record OpłataZgłoszeniowa
+namespace Ipma.Domain.Entities;
+
+public sealed record OpłataZgłoszeniowa : BaseEntity
 {
     public required decimal KwotaDoZapłatyNetto { get; init; }
     public required DateOnly DataRejestracjiWpłaty { get; init; }
     public required string StatusTransakcji { get; init; }
+
+    public Guid WniosekAplikacyjnyId { get; set; }
+    public WniosekAplikacyjny WniosekAplikacyjny { get; set; } = null!;
+}
+
+public class OpłataZgłoszeniowaConfiguration : BaseEntityConfiguration<OpłataZgłoszeniowa>
+{
+    public override void Configure(EntityTypeBuilder<OpłataZgłoszeniowa> builder)
+    {
+        base.Configure(builder);
+
+        builder.HasOne(x => x.WniosekAplikacyjny)
+            .WithOne(p => p.OpłataZgłoszeniowa)
+            .HasForeignKey<OpłataZgłoszeniowa>(x => x.WniosekAplikacyjnyId);
+    }
 }

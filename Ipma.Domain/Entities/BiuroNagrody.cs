@@ -1,7 +1,27 @@
-﻿namespace Ipma.Domain.Entities;
+﻿using Ipma.Domain.Entities.Commons;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-public record BiuroNagrody
+namespace Ipma.Domain.Entities;
+
+public sealed record BiuroNagrody : BaseEntity
 {
-    public required string AdresKorespondencyjny { get; init; }
-    public required string AdresEmail { get; init; }
+    public required string AdresKorespondencyjny { get; set; }
+    public required string AdresEmail { get; set; }
+
+    public required Guid EdycjaKonkursuId { get; set; }
+    public EdycjaKonkursu EdycjaKonkursu { get; set; } = null!;
+}
+
+public class BiuroNagrodyConfiguration : BaseEntityConfiguration<BiuroNagrody>
+{
+    public override void Configure(EntityTypeBuilder<BiuroNagrody> builder)
+    {
+        base.Configure(builder);
+
+        builder.HasOne(x => x.EdycjaKonkursu)
+            .WithOne(e => e.BiuroNagrody)
+            .HasForeignKey<BiuroNagrody>(x => x.EdycjaKonkursuId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
 }

@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ipma.Infrastructure", "Ipma
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ipma.Domain", "Ipma.Domain\Ipma.Domain.csproj", "{12BDEB55-D813-46F5-86CC-457EB844E076}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ipma.Application", "Ipma.Application\Ipma.Application.csproj", "{3DF04015-9B17-4D47-8E76-62BB96989290}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{12BDEB55-D813-46F5-86CC-457EB844E076}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12BDEB55-D813-46F5-86CC-457EB844E076}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12BDEB55-D813-46F5-86CC-457EB844E076}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3DF04015-9B17-4D47-8E76-62BB96989290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3DF04015-9B17-4D47-8E76-62BB96989290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3DF04015-9B17-4D47-8E76-62BB96989290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3DF04015-9B17-4D47-8E76-62BB96989290}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
