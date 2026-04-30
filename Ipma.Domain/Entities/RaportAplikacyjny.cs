@@ -1,4 +1,5 @@
 ﻿using Ipma.Domain.Entities.Commons;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ipma.Domain.Entities;
@@ -12,7 +13,7 @@ public sealed record RaportAplikacyjny : AudytowalnaEncja
     public Projekt Projekt { get; set; } = null!;
 }
 
-public class RaportAplikacyjnyConfiguration : BaseEntityConfiguration<RaportAplikacyjny>
+public class RaportAplikacyjnyConfiguration : AudytowalnaEncjaConfiguration<RaportAplikacyjny>
 {
     public override void Configure(EntityTypeBuilder<RaportAplikacyjny> builder)
     {
@@ -20,6 +21,7 @@ public class RaportAplikacyjnyConfiguration : BaseEntityConfiguration<RaportApli
 
         builder.HasOne(x => x.Projekt)
             .WithOne(p => p.RaportAplikacyjny)
-            .HasForeignKey<RaportAplikacyjny>(x => x.ProjektId);
+            .HasForeignKey<RaportAplikacyjny>(x => x.ProjektId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

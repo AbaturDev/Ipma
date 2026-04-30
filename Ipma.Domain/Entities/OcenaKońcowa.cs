@@ -1,4 +1,5 @@
 ﻿using Ipma.Domain.Entities.Commons;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ipma.Domain.Entities;
@@ -20,6 +21,7 @@ public class OcenaKońcowaConfiguration : BaseEntityConfiguration<OcenaKońcowa>
 
         builder.HasOne(x => x.Projekt)
             .WithOne(p => p.OcenaKońcowa)
-            .HasForeignKey<OcenaKońcowa>(x => x.ProjektId);
+            .HasForeignKey<OcenaKońcowa>(x => x.ProjektId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

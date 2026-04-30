@@ -1,5 +1,6 @@
 ﻿using Ipma.Domain.Entities.Commons;
 using Ipma.Domain.Entities.Owned;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ipma.Domain.Entities;
@@ -27,6 +28,7 @@ public class EkspertIpmaConfiguration : BaseEntityConfiguration<EkspertIpma>
         
         builder.HasOne(x => x.UmowaWspółpracy)
             .WithOne(u => u.EkspertIpma)
-            .HasForeignKey<EkspertIpma>(x => x.UmowaWspółpracyId);
+            .HasForeignKey<EkspertIpma>(x => x.UmowaWspółpracyId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

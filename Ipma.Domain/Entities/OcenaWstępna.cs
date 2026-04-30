@@ -1,4 +1,5 @@
 ﻿using Ipma.Domain.Entities.Commons;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ipma.Domain.Entities;
@@ -20,6 +21,7 @@ public class OcenaWstępnaConfiguration : BaseEntityConfiguration<OcenaWstępna>
 
         builder.HasOne(x => x.Projekt)
             .WithOne(p => p.OcenaWstępna)
-            .HasForeignKey<OcenaWstępna>(x => x.ProjektId);
+            .HasForeignKey<OcenaWstępna>(x => x.ProjektId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -16,6 +16,9 @@ public abstract class BaseEntityConfiguration<T> : IEntityTypeConfiguration<T> w
 {
     public virtual void Configure(EntityTypeBuilder<T> builder)
     {
-        builder.HasKey(x => x.Id);
+        if (builder.Metadata.BaseType == null)
+        {
+            builder.HasKey(x => x.Id);
+        }
     }
 }

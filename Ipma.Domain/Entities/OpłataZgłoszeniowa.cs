@@ -1,4 +1,5 @@
 ﻿using Ipma.Domain.Entities.Commons;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ipma.Domain.Entities;
@@ -21,6 +22,7 @@ public class OpłataZgłoszeniowaConfiguration : BaseEntityConfiguration<Opłata
 
         builder.HasOne(x => x.WniosekAplikacyjny)
             .WithOne(p => p.OpłataZgłoszeniowa)
-            .HasForeignKey<OpłataZgłoszeniowa>(x => x.WniosekAplikacyjnyId);
+            .HasForeignKey<OpłataZgłoszeniowa>(x => x.WniosekAplikacyjnyId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Ipma.Domain.Entities.Commons;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ipma.Domain.Entities;
@@ -22,10 +23,12 @@ public class OcenaIndywidualnaConfiguration : BaseEntityConfiguration<OcenaIndyw
 
         builder.HasOne(x => x.Asesor)
             .WithMany(a => a.OcenyIndywidualne)
-            .HasForeignKey(x => x.AsesorId);
+            .HasForeignKey(x => x.AsesorId)
+            .OnDelete(DeleteBehavior.NoAction);
         
         builder.HasOne(x => x.Projekt)
             .WithMany(a => a.OcenyIndywidualne)
-            .HasForeignKey(x => x.ProjektId);
+            .HasForeignKey(x => x.ProjektId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

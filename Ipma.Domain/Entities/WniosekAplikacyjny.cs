@@ -17,7 +17,7 @@ public sealed record WniosekAplikacyjny : AudytowalnaEncja
     public Projekt Projekt { get; set; } = null!;
 }
 
-public class WniosekAplikacyjnyConfiguration : BaseEntityConfiguration<WniosekAplikacyjny>
+public class WniosekAplikacyjnyConfiguration : AudytowalnaEncjaConfiguration<WniosekAplikacyjny>
 {
     public override void Configure(EntityTypeBuilder<WniosekAplikacyjny> builder)
     {

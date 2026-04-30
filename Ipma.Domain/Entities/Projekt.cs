@@ -40,7 +40,7 @@ public sealed record Projekt : AudytowalnaEncja
     public ICollection<OcenaIndywidualna> OcenyIndywidualne { get; set; } = new List<OcenaIndywidualna>();
 }
 
-public class ProjektConfiguration : BaseEntityConfiguration<Projekt>
+public class ProjektConfiguration : AudytowalnaEncjaConfiguration<Projekt>
 {
     public override void Configure(EntityTypeBuilder<Projekt> builder)
     {
@@ -53,11 +53,13 @@ public class ProjektConfiguration : BaseEntityConfiguration<Projekt>
 
         builder.HasOne(x => x.Kategoria)
             .WithMany(e => e.Projekty)
-            .HasForeignKey(x => x.KategoriaId);
+            .HasForeignKey(x => x.KategoriaId)
+            .OnDelete(DeleteBehavior.NoAction);
         
         builder.HasOne(x => x.AsesorWiodący)
             .WithMany(a => a.ProjektyNadzorowane)
-            .HasForeignKey(x => x.AsesorWiodącyId);
+            .HasForeignKey(x => x.AsesorWiodącyId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.OwnsMany(x => x.PytaniaOdJury);
         

@@ -3,7 +3,7 @@
 namespace Ipma.Domain.Entities.Owned;
 
 [Owned]
-public abstract record Organizacja
+public sealed record Organizacja
 {
     public required string NazwaOrganizacji { get; init; }
     public required string NumerNip { get; init; }
