@@ -1,6 +1,9 @@
-﻿namespace Ipma.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
 
-public abstract record DaneOsobowe
+namespace Ipma.Domain.Entities.Owned;
+
+[Owned]
+public sealed record DaneOsobowe
 {
     public required string Imie { get; init; }
     public required string Nazwisko { get; init; }
