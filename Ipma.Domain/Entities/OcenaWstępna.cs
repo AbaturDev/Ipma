@@ -13,7 +13,7 @@ public sealed record OcenaWstępna : OcenaProjektu
     public Projekt Projekt { get; set; } = null!;
 }
 
-public class OcenaWstępnaConfiguration : BaseEntityConfiguration<OcenaWstępna>
+public class OcenaWstępnaConfiguration : OcenaProjektuConfiguration<OcenaWstępna>
 {
     public override void Configure(EntityTypeBuilder<OcenaWstępna> builder)
     {

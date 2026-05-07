@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ipma.Infrastructure.Migrations
 {
     [DbContext(typeof(IpmaDbContext))]
-    [Migration("20260507114507_FixDecimalAccuracy")]
+    [Migration("20260507161315_FixDecimalAccuracy")]
     partial class FixDecimalAccuracy
     {
         /// <inheritdoc />
@@ -122,54 +122,6 @@ namespace Ipma.Infrastructure.Migrations
                     b.ToTable("KontoUżytkownika");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("KontoUżytkownika");
-
-                    b.UseTphMappingStrategy();
-                });
-
-            modelBuilder.Entity("Ipma.Domain.Entities.Commons.OcenaProjektu", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTimeOffset>("CreatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<bool>("CzyOcenaSpozniona")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(21)
-                        .HasColumnType("nvarchar(21)");
-
-                    b.Property<DateOnly>("PlanowanaDataOpracowania")
-                        .HasColumnType("date");
-
-                    b.Property<DateTimeOffset>("UpdatedAt")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("UzasadnienieOceniajacego")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("WynikObszarLudzieICel")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("WynikObszarProcesyIZasoby")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal>("WynikObszarRezultaty")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OcenaProjektu");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("OcenaProjektu");
 
                     b.UseTphMappingStrategy();
                 });
@@ -308,6 +260,162 @@ namespace Ipma.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Kategorie");
+                });
+
+            modelBuilder.Entity("Ipma.Domain.Entities.OcenaIndywidualna", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("AsesorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("CzyOcenaSpozniona")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CzyZatwierdzona")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly>("PlanowanaDataOpracowania")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("ProjektId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UzasadnienieOceniajacego")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("WynikObszarLudzieICel")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("WynikObszarProcesyIZasoby")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("WynikObszarRezultaty")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AsesorId");
+
+                    b.HasIndex("ProjektId");
+
+                    b.ToTable("OcenyIndywidualne");
+                });
+
+            modelBuilder.Entity("Ipma.Domain.Entities.OcenaKońcowa", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("CzyOcenaSpozniona")
+                        .HasColumnType("bit");
+
+                    b.Property<double>("OstatecznaNotaPunktowa")
+                        .HasColumnType("float");
+
+                    b.Property<DateOnly>("PlanowanaDataOpracowania")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("ProjektId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("RekomendacjaFinałowa")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UzasadnienieOceniajacego")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("WynikObszarLudzieICel")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("WynikObszarProcesyIZasoby")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("WynikObszarRezultaty")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjektId")
+                        .IsUnique();
+
+                    b.ToTable("OcenyKońcowe");
+                });
+
+            modelBuilder.Entity("Ipma.Domain.Entities.OcenaWstępna", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset>("CreatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool>("CzyOcenaSpozniona")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("CzyOsiągniętoKonsensus")
+                        .HasColumnType("bit");
+
+                    b.Property<DateOnly>("PlanowanaDataOpracowania")
+                        .HasColumnType("date");
+
+                    b.Property<Guid>("ProjektId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("SkonsolidowanyWynikPunktowy")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTimeOffset>("UpdatedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("UzasadnienieOceniajacego")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("WynikObszarLudzieICel")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("WynikObszarProcesyIZasoby")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("WynikObszarRezultaty")
+                        .HasPrecision(18, 2)
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProjektId")
+                        .IsUnique();
+
+                    b.ToTable("OcenyWstępne");
                 });
 
             modelBuilder.Entity("Ipma.Domain.Entities.OpłataZgłoszeniowa", b =>
@@ -614,80 +722,6 @@ namespace Ipma.Infrastructure.Migrations
                     b.HasDiscriminator().HasValue("CzłonekJury");
                 });
 
-            modelBuilder.Entity("Ipma.Domain.Entities.OcenaIndywidualna", b =>
-                {
-                    b.HasBaseType("Ipma.Domain.Entities.Commons.OcenaProjektu");
-
-                    b.Property<Guid>("AsesorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<bool>("CzyZatwierdzona")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("ProjektId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasIndex("AsesorId");
-
-                    b.HasIndex("ProjektId");
-
-                    b.HasDiscriminator().HasValue("OcenaIndywidualna");
-                });
-
-            modelBuilder.Entity("Ipma.Domain.Entities.OcenaKońcowa", b =>
-                {
-                    b.HasBaseType("Ipma.Domain.Entities.Commons.OcenaProjektu");
-
-                    b.Property<double>("OstatecznaNotaPunktowa")
-                        .HasColumnType("float");
-
-                    b.Property<Guid>("ProjektId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("RekomendacjaFinałowa")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasIndex("ProjektId")
-                        .IsUnique()
-                        .HasFilter("[ProjektId] IS NOT NULL");
-
-                    b.ToTable("OcenaProjektu", t =>
-                        {
-                            t.Property("ProjektId")
-                                .HasColumnName("OcenaKońcowa_ProjektId");
-                        });
-
-                    b.HasDiscriminator().HasValue("OcenaKońcowa");
-                });
-
-            modelBuilder.Entity("Ipma.Domain.Entities.OcenaWstępna", b =>
-                {
-                    b.HasBaseType("Ipma.Domain.Entities.Commons.OcenaProjektu");
-
-                    b.Property<bool>("CzyOsiągniętoKonsensus")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("ProjektId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<decimal>("SkonsolidowanyWynikPunktowy")
-                        .HasPrecision(18, 2)
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasIndex("ProjektId")
-                        .IsUnique()
-                        .HasFilter("[ProjektId] IS NOT NULL");
-
-                    b.ToTable("OcenaProjektu", t =>
-                        {
-                            t.Property("ProjektId")
-                                .HasColumnName("OcenaWstępna_ProjektId");
-                        });
-
-                    b.HasDiscriminator().HasValue("OcenaWstępna");
-                });
-
             modelBuilder.Entity("CzłonekJuryEdycjaKonkursu", b =>
                 {
                     b.HasOne("Ipma.Domain.Entities.CzłonekJury", null)
@@ -792,6 +826,47 @@ namespace Ipma.Infrastructure.Migrations
                     b.Navigation("EdycjaKonkursu");
                 });
 
+            modelBuilder.Entity("Ipma.Domain.Entities.OcenaIndywidualna", b =>
+                {
+                    b.HasOne("Ipma.Domain.Entities.Asesor", "Asesor")
+                        .WithMany("OcenyIndywidualne")
+                        .HasForeignKey("AsesorId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Ipma.Domain.Entities.Projekt", "Projekt")
+                        .WithMany("OcenyIndywidualne")
+                        .HasForeignKey("ProjektId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Asesor");
+
+                    b.Navigation("Projekt");
+                });
+
+            modelBuilder.Entity("Ipma.Domain.Entities.OcenaKońcowa", b =>
+                {
+                    b.HasOne("Ipma.Domain.Entities.Projekt", "Projekt")
+                        .WithOne("OcenaKońcowa")
+                        .HasForeignKey("Ipma.Domain.Entities.OcenaKońcowa", "ProjektId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Projekt");
+                });
+
+            modelBuilder.Entity("Ipma.Domain.Entities.OcenaWstępna", b =>
+                {
+                    b.HasOne("Ipma.Domain.Entities.Projekt", "Projekt")
+                        .WithOne("OcenaWstępna")
+                        .HasForeignKey("Ipma.Domain.Entities.OcenaWstępna", "ProjektId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Projekt");
+                });
+
             modelBuilder.Entity("Ipma.Domain.Entities.OpłataZgłoszeniowa", b =>
                 {
                     b.HasOne("Ipma.Domain.Entities.WniosekAplikacyjny", "WniosekAplikacyjny")
@@ -808,7 +883,7 @@ namespace Ipma.Infrastructure.Migrations
                     b.HasOne("Ipma.Domain.Entities.Aplikant", "Aplikant")
                         .WithMany("Projekty")
                         .HasForeignKey("AplikantId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Ipma.Domain.Entities.Asesor", "AsesorWiodący")
@@ -1082,47 +1157,6 @@ namespace Ipma.Infrastructure.Migrations
 
                     b.Navigation("DaneOsobowe")
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Ipma.Domain.Entities.OcenaIndywidualna", b =>
-                {
-                    b.HasOne("Ipma.Domain.Entities.Asesor", "Asesor")
-                        .WithMany("OcenyIndywidualne")
-                        .HasForeignKey("AsesorId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.HasOne("Ipma.Domain.Entities.Projekt", "Projekt")
-                        .WithMany("OcenyIndywidualne")
-                        .HasForeignKey("ProjektId")
-                        .OnDelete(DeleteBehavior.NoAction)
-                        .IsRequired();
-
-                    b.Navigation("Asesor");
-
-                    b.Navigation("Projekt");
-                });
-
-            modelBuilder.Entity("Ipma.Domain.Entities.OcenaKońcowa", b =>
-                {
-                    b.HasOne("Ipma.Domain.Entities.Projekt", "Projekt")
-                        .WithOne("OcenaKońcowa")
-                        .HasForeignKey("Ipma.Domain.Entities.OcenaKońcowa", "ProjektId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Projekt");
-                });
-
-            modelBuilder.Entity("Ipma.Domain.Entities.OcenaWstępna", b =>
-                {
-                    b.HasOne("Ipma.Domain.Entities.Projekt", "Projekt")
-                        .WithOne("OcenaWstępna")
-                        .HasForeignKey("Ipma.Domain.Entities.OcenaWstępna", "ProjektId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Projekt");
                 });
 
             modelBuilder.Entity("Ipma.Domain.Entities.EdycjaKonkursu", b =>

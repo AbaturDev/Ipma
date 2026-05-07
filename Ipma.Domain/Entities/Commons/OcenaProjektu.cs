@@ -12,9 +12,9 @@ public abstract record OcenaProjektu : BaseEntity
     public required bool CzyOcenaSpozniona { get; init; }
 }
 
-public class OcenaProjektuConfiguration : BaseEntityConfiguration<OcenaProjektu>
+public abstract class OcenaProjektuConfiguration<T> : BaseEntityConfiguration<T> where T : OcenaProjektu
 {
-    public override void Configure(EntityTypeBuilder<OcenaProjektu> builder)
+    public override void Configure(EntityTypeBuilder<T> builder)
     {
         base.Configure(builder);
 
