@@ -1,4 +1,6 @@
-﻿namespace Ipma.Domain.Entities.Commons;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Ipma.Domain.Entities.Commons;
 
 public abstract record OcenaProjektu : BaseEntity
 {
@@ -8,4 +10,21 @@ public abstract record OcenaProjektu : BaseEntity
     public required string UzasadnienieOceniajacego { get; init; }
     public required DateOnly PlanowanaDataOpracowania { get; init; }
     public required bool CzyOcenaSpozniona { get; init; }
+}
+
+public class OcenaProjektuConfiguration : BaseEntityConfiguration<OcenaProjektu>
+{
+    public override void Configure(EntityTypeBuilder<OcenaProjektu> builder)
+    {
+        base.Configure(builder);
+
+        builder.Property(x => x.WynikObszarLudzieICel)
+            .HasPrecision(18, 2);
+
+        builder.Property(x => x.WynikObszarProcesyIZasoby)
+            .HasPrecision(18, 2);
+
+        builder.Property(x => x.WynikObszarRezultaty)
+            .HasPrecision(18, 2);
+    }
 }

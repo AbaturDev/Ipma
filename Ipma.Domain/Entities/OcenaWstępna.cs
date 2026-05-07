@@ -19,6 +19,9 @@ public class OcenaWstępnaConfiguration : BaseEntityConfiguration<OcenaWstępna>
     {
         base.Configure(builder);
 
+        builder.Property(x => x.SkonsolidowanyWynikPunktowy)
+            .HasPrecision(18, 2);
+
         builder.HasOne(x => x.Projekt)
             .WithOne(p => p.OcenaWstępna)
             .HasForeignKey<OcenaWstępna>(x => x.ProjektId)

@@ -4,6 +4,7 @@ using Ipma.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ipma.Infrastructure.Migrations
 {
     [DbContext(typeof(IpmaDbContext))]
-    partial class IpmaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260507114507_FixDecimalAccuracy")]
+    partial class FixDecimalAccuracy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace Ipma.Infrastructure.Migrations
 
                     b.HasIndex("OcenianeKonkursyId");
 
-                    b.ToTable("CzłonekJuryEdycjaKonkursu", (string)null);
+                    b.ToTable("CzłonekJuryEdycjaKonkursu");
                 });
 
             modelBuilder.Entity("EdycjaKonkursuKategoria", b =>
@@ -49,7 +52,7 @@ namespace Ipma.Infrastructure.Migrations
 
                     b.HasIndex("KategorieId");
 
-                    b.ToTable("EdycjaKonkursuKategoria", (string)null);
+                    b.ToTable("EdycjaKonkursuKategoria");
                 });
 
             modelBuilder.Entity("Ipma.Domain.Entities.BiuroNagrody", b =>
@@ -80,7 +83,7 @@ namespace Ipma.Infrastructure.Migrations
                     b.HasIndex("EdycjaKonkursuId")
                         .IsUnique();
 
-                    b.ToTable("BiuraNagrody", (string)null);
+                    b.ToTable("BiuraNagrody");
                 });
 
             modelBuilder.Entity("Ipma.Domain.Entities.Commons.KontoUżytkownika", b =>
@@ -116,7 +119,7 @@ namespace Ipma.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("KontoUżytkownika", (string)null);
+                    b.ToTable("KontoUżytkownika");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("KontoUżytkownika");
 
@@ -164,7 +167,7 @@ namespace Ipma.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OcenaProjektu", (string)null);
+                    b.ToTable("OcenaProjektu");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("OcenaProjektu");
 
@@ -199,7 +202,7 @@ namespace Ipma.Infrastructure.Migrations
 
                     b.HasIndex("PrzewodniczącyId");
 
-                    b.ToTable("EdycjeKonkursu", (string)null);
+                    b.ToTable("EdycjeKonkursu");
                 });
 
             modelBuilder.Entity("Ipma.Domain.Entities.EkspertIpma", b =>
@@ -233,7 +236,7 @@ namespace Ipma.Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("[UmowaWspółpracyId] IS NOT NULL");
 
-                    b.ToTable("EksperciIpma", (string)null);
+                    b.ToTable("EksperciIpma");
                 });
 
             modelBuilder.Entity("Ipma.Domain.Entities.Harmonogram", b =>
@@ -283,7 +286,7 @@ namespace Ipma.Infrastructure.Migrations
                     b.HasIndex("EdycjaKonkursuId")
                         .IsUnique();
 
-                    b.ToTable("Harmonogramy", (string)null);
+                    b.ToTable("Harmonogramy");
                 });
 
             modelBuilder.Entity("Ipma.Domain.Entities.Kategoria", b =>
@@ -304,7 +307,7 @@ namespace Ipma.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Kategorie", (string)null);
+                    b.ToTable("Kategorie");
                 });
 
             modelBuilder.Entity("Ipma.Domain.Entities.OpłataZgłoszeniowa", b =>
@@ -338,7 +341,7 @@ namespace Ipma.Infrastructure.Migrations
                     b.HasIndex("WniosekAplikacyjnyId")
                         .IsUnique();
 
-                    b.ToTable("OpłatyZgłoszeniowe", (string)null);
+                    b.ToTable("OpłatyZgłoszeniowe");
                 });
 
             modelBuilder.Entity("Ipma.Domain.Entities.Projekt", b =>
@@ -416,7 +419,7 @@ namespace Ipma.Infrastructure.Migrations
 
                     b.HasIndex("ZmodyfikowanyPrzezId");
 
-                    b.ToTable("Projekty", (string)null);
+                    b.ToTable("Projekty");
                 });
 
             modelBuilder.Entity("Ipma.Domain.Entities.RaportAplikacyjny", b =>
@@ -456,7 +459,7 @@ namespace Ipma.Infrastructure.Migrations
 
                     b.HasIndex("ZmodyfikowanyPrzezId");
 
-                    b.ToTable("RaportyAplikacyjne", (string)null);
+                    b.ToTable("RaportyAplikacyjne");
                 });
 
             modelBuilder.Entity("Ipma.Domain.Entities.RaportZWizyty", b =>
@@ -496,7 +499,7 @@ namespace Ipma.Infrastructure.Migrations
 
                     b.HasIndex("ZmodyfikowanyPrzezId");
 
-                    b.ToTable("RaportyZWizyty", (string)null);
+                    b.ToTable("RaportyZWizyty");
                 });
 
             modelBuilder.Entity("Ipma.Domain.Entities.UmowaWspółpracy", b =>
@@ -523,7 +526,7 @@ namespace Ipma.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UmowyWspółpracy", (string)null);
+                    b.ToTable("UmowyWspółpracy");
                 });
 
             modelBuilder.Entity("Ipma.Domain.Entities.WniosekAplikacyjny", b =>
@@ -569,7 +572,7 @@ namespace Ipma.Infrastructure.Migrations
 
                     b.HasIndex("ZmodyfikowanyPrzezId");
 
-                    b.ToTable("WnioskiAplikacyjne", (string)null);
+                    b.ToTable("WnioskiAplikacyjne");
                 });
 
             modelBuilder.Entity("Ipma.Domain.Entities.Aplikant", b =>
@@ -649,7 +652,7 @@ namespace Ipma.Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("[ProjektId] IS NOT NULL");
 
-                    b.ToTable("OcenaProjektu", null, t =>
+                    b.ToTable("OcenaProjektu", t =>
                         {
                             t.Property("ProjektId")
                                 .HasColumnName("OcenaKońcowa_ProjektId");
@@ -676,7 +679,7 @@ namespace Ipma.Infrastructure.Migrations
                         .IsUnique()
                         .HasFilter("[ProjektId] IS NOT NULL");
 
-                    b.ToTable("OcenaProjektu", null, t =>
+                    b.ToTable("OcenaProjektu", t =>
                         {
                             t.Property("ProjektId")
                                 .HasColumnName("OcenaWstępna_ProjektId");
@@ -766,7 +769,7 @@ namespace Ipma.Infrastructure.Migrations
 
                             b1.HasKey("EkspertIpmaId");
 
-                            b1.ToTable("EksperciIpma", (string)null);
+                            b1.ToTable("EksperciIpma");
 
                             b1.WithOwner()
                                 .HasForeignKey("EkspertIpmaId");
@@ -854,7 +857,7 @@ namespace Ipma.Infrastructure.Migrations
 
                             b1.HasIndex("ProjektId");
 
-                            b1.ToTable("PytanieOdJury", (string)null);
+                            b1.ToTable("PytanieOdJury");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProjektId");
@@ -981,7 +984,7 @@ namespace Ipma.Infrastructure.Migrations
 
                             b1.HasKey("AplikantId");
 
-                            b1.ToTable("KontoUżytkownika", (string)null);
+                            b1.ToTable("KontoUżytkownika");
 
                             b1.WithOwner()
                                 .HasForeignKey("AplikantId");
@@ -1009,7 +1012,7 @@ namespace Ipma.Infrastructure.Migrations
 
                             b1.HasKey("AplikantId");
 
-                            b1.ToTable("KontoUżytkownika", (string)null);
+                            b1.ToTable("KontoUżytkownika");
 
                             b1.WithOwner()
                                 .HasForeignKey("AplikantId");
@@ -1058,7 +1061,7 @@ namespace Ipma.Infrastructure.Migrations
 
                             b1.HasKey("CzłonekJuryId");
 
-                            b1.ToTable("KontoUżytkownika", null, t =>
+                            b1.ToTable("KontoUżytkownika", t =>
                                 {
                                     t.Property("AdresEmail")
                                         .HasColumnName("DaneOsobowe_AdresEmail1");

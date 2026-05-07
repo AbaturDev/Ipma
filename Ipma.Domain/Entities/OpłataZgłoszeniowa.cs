@@ -20,6 +20,9 @@ public class OpłataZgłoszeniowaConfiguration : BaseEntityConfiguration<Opłata
     {
         base.Configure(builder);
 
+        builder.Property(x => x.KwotaDoZapłatyNetto)
+            .HasPrecision(18, 2);
+
         builder.HasOne(x => x.WniosekAplikacyjny)
             .WithOne(p => p.OpłataZgłoszeniowa)
             .HasForeignKey<OpłataZgłoszeniowa>(x => x.WniosekAplikacyjnyId)
