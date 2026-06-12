@@ -46,6 +46,9 @@ public class ProjektConfiguration : AudytowalnaEncjaConfiguration<Projekt>
     {
         base.Configure(builder);
 
+        builder.Property(x => x.ŚredniaOcenaCzłonkówJury)
+            .HasPrecision(18, 2);
+
         builder.HasOne(x => x.EdycjaKonkursu)
             .WithMany(e => e.Projekty)
             .HasForeignKey(x => x.EdycjaKonkursuId)
@@ -59,6 +62,11 @@ public class ProjektConfiguration : AudytowalnaEncjaConfiguration<Projekt>
         builder.HasOne(x => x.AsesorWiodący)
             .WithMany(a => a.ProjektyNadzorowane)
             .HasForeignKey(x => x.AsesorWiodącyId)
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne(x => x.Aplikant)
+            .WithMany(a => a.Projekty)
+            .HasForeignKey(x => x.AplikantId)
             .OnDelete(DeleteBehavior.NoAction);
 
         builder.OwnsMany(x => x.PytaniaOdJury);

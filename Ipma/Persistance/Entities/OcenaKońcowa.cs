@@ -13,7 +13,7 @@ public sealed record OcenaKońcowa : OcenaProjektu
     public Projekt Projekt { get; set; } = null!;
 }
 
-public class OcenaKońcowaConfiguration : BaseEntityConfiguration<OcenaKońcowa>
+public class OcenaKońcowaConfiguration : OcenaProjektuConfiguration<OcenaKońcowa>
 {
     public override void Configure(EntityTypeBuilder<OcenaKońcowa> builder)
     {

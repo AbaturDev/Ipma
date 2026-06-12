@@ -15,7 +15,7 @@ public sealed record OcenaIndywidualna : OcenaProjektu
     public Asesor Asesor { get; set; } = null!;
 }
 
-public class OcenaIndywidualnaConfiguration : BaseEntityConfiguration<OcenaIndywidualna>
+public class OcenaIndywidualnaConfiguration : OcenaProjektuConfiguration<OcenaIndywidualna>
 {
     public override void Configure(EntityTypeBuilder<OcenaIndywidualna> builder)
     {

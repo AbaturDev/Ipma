@@ -13,11 +13,14 @@ public sealed record OcenaWstępna : OcenaProjektu
     public Projekt Projekt { get; set; } = null!;
 }
 
-public class OcenaWstępnaConfiguration : BaseEntityConfiguration<OcenaWstępna>
+public class OcenaWstępnaConfiguration : OcenaProjektuConfiguration<OcenaWstępna>
 {
     public override void Configure(EntityTypeBuilder<OcenaWstępna> builder)
     {
         base.Configure(builder);
+
+        builder.Property(x => x.SkonsolidowanyWynikPunktowy)
+            .HasPrecision(18, 2);
 
         builder.HasOne(x => x.Projekt)
             .WithOne(p => p.OcenaWstępna)
