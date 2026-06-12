@@ -1,0 +1,27 @@
+﻿using Ipma.Persistance.Entities.Commons;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Ipma.Persistance.Entities;
+
+public sealed record RaportAplikacyjny : AudytowalnaEncja
+{
+    public required string WykazZałączników { get; init; }
+    public required DateOnly DataDostarczeniaFizycznego { get; init; }
+    
+    public Guid ProjektId { get; set; }
+    public Projekt Projekt { get; set; } = null!;
+}
+
+public class RaportAplikacyjnyConfiguration : AudytowalnaEncjaConfiguration<RaportAplikacyjny>
+{
+    public override void Configure(EntityTypeBuilder<RaportAplikacyjny> builder)
+    {
+        base.Configure(builder);
+
+        builder.HasOne(x => x.Projekt)
+            .WithOne(p => p.RaportAplikacyjny)
+            .HasForeignKey<RaportAplikacyjny>(x => x.ProjektId)
+            .OnDelete(DeleteBehavior.Cascade);
+    }
+}
