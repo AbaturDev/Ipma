@@ -16,7 +16,8 @@ public sealed class IpmaDbContext : DbContext
         ChangeTracker.StateChanged += UpdateTimestamps;
         ChangeTracker.Tracked += UpdateTimestamps;
     }
-    
+
+    public DbSet<KontoUżytkownika> Użytkownicy { get; init; }
     public DbSet<Aplikant> Aplikanci { get; init; }
     public DbSet<Asesor> Asesorzy { get; init; }
     public DbSet<BiuroNagrody> BiuraNagrody { get; init; }
@@ -30,6 +31,7 @@ public sealed class IpmaDbContext : DbContext
     public DbSet<OcenaWstępna> OcenyWstępne { get; init; }
     public DbSet<OpłataZgłoszeniowa> OpłatyZgłoszeniowe { get; init; }
     public DbSet<Projekt> Projekty { get; init; }
+    public DbSet<PrzedstawicielBiuraNagrody> PrzedstawicieleBiuraNagrody { get; init; }
     public DbSet<RaportAplikacyjny> RaportyAplikacyjne { get; init; }
     public DbSet<RaportZWizyty> RaportyZWizyty { get; init; }
     public DbSet<UmowaWspółpracy> UmowyWspółpracy { get; init; }

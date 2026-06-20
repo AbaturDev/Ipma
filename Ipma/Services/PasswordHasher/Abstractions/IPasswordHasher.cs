@@ -1,0 +1,7 @@
+namespace Ipma.Services.PasswordHasher.Abstractions;
+
+public interface IPasswordHasher
+{
+    string Hash(string password);
+    bool Verify(string password, string hashedPassword);
+}
