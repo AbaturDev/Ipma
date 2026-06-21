@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using Ipma.Options;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -36,6 +37,7 @@ public static class AuthorizationExtensions
             {
                 options.RequireHttpsMetadata = false;
                 options.SaveToken = true;
+                options.UseSecurityTokenValidators = true;
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
@@ -44,11 +46,17 @@ public static class AuthorizationExtensions
                     ValidateLifetime = true,
                     ValidIssuer = jwtOptions.Issuer,
                     ValidAudience = jwtOptions.Audience,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Secret))
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.Secret)),
+                    RoleClaimType = ClaimTypes.Role
                 };
 
                 options.Events = new JwtBearerEvents
                 {
+                    OnAuthenticationFailed = context =>
+                    {
+                        Console.WriteLine($"[AUTH FAILED] {context.Exception.GetType().Name}: {context.Exception.Message}");
+                        return Task.CompletedTask;
+                    },
                     OnChallenge = async context =>
                     {
                         context.HandleResponse();
@@ -74,7 +82,7 @@ public static class AuthorizationExtensions
                             Type = "https://tools.ietf.org/html/rfc7231#section-6.5.3",
                             Title = "Forbidden",
                             Status = StatusCodes.Status403Forbidden,
-                            Detail = "You don not have access to this resource.",
+                            Detail = "You do not have access to this resource.",
                             Instance = context.Request.Path
                         });
                     }
