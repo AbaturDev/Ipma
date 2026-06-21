@@ -1,3 +1,5 @@
+using Ipma.Api.Endpoints.EksperciIpma.Requests;
+using Ipma.Api.Filters;
 using Ipma.Extensions;
 using Ipma.Features.EksperciIpma.Creating;
 using Ipma.Features.EksperciIpma.Deleting;
@@ -16,10 +18,13 @@ public static class EksperciIpmaEndpoints
 
         group.MapGet("", ListEkspertIpmas.HandleAsync);
         group.MapGet("/{id:guid}", GetEkspertIpma.HandleAsync);
-        group.MapPost("", CreateEkspertIpma.HandleAsync);
-        group.MapPut("/{id:guid}", UpdateEkspertIpma.HandleAsync);
+        group.MapPost("", CreateEkspertIpma.HandleAsync)
+            .AddEndpointFilter<ValidationFilter<CreateEkspertIpmaRequest>>();
+        group.MapPut("/{id:guid}", UpdateEkspertIpma.HandleAsync)
+            .AddEndpointFilter<ValidationFilter<UpdateEkspertIpmaRequest>>();
         group.MapDelete("/{id:guid}", DeleteEkspertIpma.HandleAsync);
-        group.MapPost("/{id:guid}/verify", VerifyEkspertIpma.HandleAsync);
+        group.MapPost("/{id:guid}/verify", VerifyEkspertIpma.HandleAsync)
+            .AddEndpointFilter<ValidationFilter<VerifyEkspertIpmaRequest>>();
 
         return group;
     }
