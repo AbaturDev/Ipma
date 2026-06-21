@@ -26,7 +26,7 @@ public class JwtService : IJwtService
         {
             new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
             new(JwtRegisteredClaimNames.UniqueName, user.Login),
-            new("role", user.Role),
+            new(ClaimTypes.Role, user.Role),
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
         
@@ -37,7 +37,7 @@ public class JwtService : IJwtService
             issuer: _jwtOptions.Issuer,
             audience: _jwtOptions.Audience,
             claims: claims,
-            expires: _timeProvider.GetUtcNow().DateTime.AddMinutes(_jwtOptions.ExpirationInMinutes),
+            expires: _timeProvider.GetUtcNow().UtcDateTime.AddMinutes(_jwtOptions.ExpirationInMinutes),
             signingCredentials: credentials);
 
         return new JwtSecurityTokenHandler().WriteToken(token);
