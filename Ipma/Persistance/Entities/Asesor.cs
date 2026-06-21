@@ -6,7 +6,7 @@ namespace Ipma.Persistance.Entities;
 
 public sealed record Asesor : KontoUżytkownika
 {
-    public required string FlagaUprawnieńZarządczych { get; init; }
+    public required bool FlagaUprawnieńZarządczych { get; init; }
 
     public required Guid EkspertIpmaId { get; set; }
     public EkspertIpma EkspertIpma { get; set; } = null!;

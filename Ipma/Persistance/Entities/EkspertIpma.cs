@@ -1,5 +1,6 @@
 ﻿using Ipma.Persistance.Entities.Commons;
 using Ipma.Persistance.Entities.Owned;
+using Ipma.Persistance.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,7 +9,7 @@ namespace Ipma.Persistance.Entities;
 public sealed record EkspertIpma : BaseEntity
 {
     public required int RokUkończeniaSzkoleńPeb { get; init; }
-    public required string StatusDostępności { get; init; }
+    public required StatusEkspertaIpma Status { get; init; }
     public required bool FlagaKonfliktuInteresów { get; init; }
 
     public required DaneOsobowe DaneOsobowe { get; set; }

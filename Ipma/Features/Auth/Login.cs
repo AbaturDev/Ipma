@@ -29,13 +29,19 @@ public static class Login
         if (użytkownik is null)
             return TypedResults.BadRequest(new ProblemDetails
             {
-                
+                Type = "https://tools.ietf.org/html/rfc7235#section-3.1",
+                Title = "Bad request",
+                Status = StatusCodes.Status400BadRequest,
+                Detail = "Invalid login or password.",
             });
 
         if (!passwordHasher.Verify(request.Password, użytkownik.Hasło))
             return TypedResults.BadRequest(new ProblemDetails
             {
-                
+                Type = "https://tools.ietf.org/html/rfc7235#section-3.1",
+                Title = "Bad request",
+                Status = StatusCodes.Status400BadRequest,
+                Detail = "Invalid login or password.",
             });
         
         var role = użytkownik switch
