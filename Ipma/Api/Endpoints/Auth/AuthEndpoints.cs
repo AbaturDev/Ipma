@@ -6,7 +6,8 @@ public static class AuthEndpoints
 {
     public static RouteGroupBuilder MapAuthEndpoints(this IEndpointRouteBuilder builder)
     {
-        var group = builder.MapGroup("/api/auth");
+        var group = builder.MapGroup("/api/auth")
+            .AllowAnonymous();
 
         group.MapPost("/login", Login.HandleAsync);
         

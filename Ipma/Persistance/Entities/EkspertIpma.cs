@@ -8,9 +8,9 @@ namespace Ipma.Persistance.Entities;
 
 public sealed record EkspertIpma : BaseEntity
 {
-    public required int RokUkończeniaSzkoleńPeb { get; init; }
-    public required StatusEkspertaIpma Status { get; init; }
-    public required bool FlagaKonfliktuInteresów { get; init; }
+    public required int RokUkończeniaSzkoleńPeb { get; set; }
+    public required StatusEkspertaIpma Status { get; set; }
+    public required bool FlagaKonfliktuInteresów { get; set; }
 
     public required DaneOsobowe DaneOsobowe { get; set; }
 
