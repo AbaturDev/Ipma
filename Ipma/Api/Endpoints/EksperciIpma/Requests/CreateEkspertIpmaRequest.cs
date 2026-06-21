@@ -5,10 +5,9 @@ namespace Ipma.Api.Endpoints.EksperciIpma.Requests;
 
 public sealed record CreateEkspertIpmaRequest
 {
-    [Required]
     [Range(1900, int.MaxValue, ErrorMessage = "RokUkończeniaSzkoleńPeb must be at least 1900.")]
     [NotInFuture]
-    public required int RokUkończeniaSzkoleńPeb { get; init; }
+    public int? RokUkończeniaSzkoleńPeb { get; init; }
 
     [Required]
     [MaxLength(100, ErrorMessage = "Imie must not exceed 100 characters.")]
