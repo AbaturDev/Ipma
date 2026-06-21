@@ -1,5 +1,7 @@
-using Ipma.Components;
-using Ipma.Infrastructure;
+using Ipma.Api;
+using Ipma.Extensions;
+using Ipma.Persistance;
+using Ipma.Persistance.Seeders;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,26 +11,33 @@ builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddDbContext<IpmaDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+builder.Services.AddOpenApi();
+
+builder.Services.AddProblemDetails();
+
+builder.Services.RegisterOptions();
+builder.Services.RegisterServices();
+
+builder.AddApiAuthentication();
+
+builder.Services.AddScoped<DbSeeder>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    app.MapOpenApi();
 }
 
-app.UseStatusCodePagesWithReExecute("/not-found", createScopeForStatusCodePages: true);
 app.UseHttpsRedirection();
+app.UseApiAuthentication();
 
-app.UseAntiforgery();
+app.RegisterEndpoints();
 
-app.MapStaticAssets();
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+using (var scope = app.Services.CreateScope())
+{
+    var seeder = scope.ServiceProvider.GetRequiredService<DbSeeder>();
+    await seeder.SeedAsync();
+}
 
 app.Run();
