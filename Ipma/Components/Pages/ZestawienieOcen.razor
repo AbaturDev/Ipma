@@ -1,0 +1,90 @@
+﻿@page "/zestawienie-ocen"
+@using Ipma.Application.Services
+@using Ipma.Domain.Entities
+@rendermode InteractiveServer
+@inject ZestawienieOcenService ZestawienieService
+@inject IJSRuntime JS
+
+@if (!isLoggedIn)
+{
+    <div style="padding: 20px; border: 1px solid #ccc; max-width: 300px;">
+        <h3>Logowanie (Mock)</h3>
+        <input @bind="login" placeholder="Login" class="form-control mb-2" />
+        <input @bind="haslo" type="password" placeholder="Hasło" class="form-control mb-2" />
+        <button class="btn btn-primary" @onclick="Zaloguj">Zaloguj</button>
+        @if (loginError)
+        {
+            <p style="color:red">Błąd logowania!</p>
+        }
+    </div>
+}
+else
+{
+    <h3>Zestawienie ocen końcowych - edycja @(projekty?.FirstOrDefault()?.EdycjaKonkursu?.NumerEdycji ?? 1)</h3>
+
+    <button class="btn-download" @onclick="PobierzPdf">Pobierz raport PDF</button>
+
+    <div class="cards-grid">
+        @if (projekty == null)
+        {
+            <p>Ładowanie danych z bazy...</p>
+        }
+        else if (!projekty.Any())
+        {
+            <p>Brak projektów w aktualnej edycji.</p>
+        }
+        else
+        {
+            @foreach (var projekt in projekty)
+            {
+                <div class="project-card">
+                    <h4>[@projekt.NazwaPrzedsięwzięcia]</h4>
+                    <div class="card-section">
+                        <p>Rekomendacja: [@projekt.OcenaKońcowa?.RekomendacjaFinałowa]</p>
+                        <p>Ostateczna nota: [@projekt.OcenaKońcowa?.OstatecznaNotaPunktowa]</p>
+                    </div>
+
+                    <div class="card-section">
+                        <p>Ludzie i Cel: [@projekt.OcenaKońcowa?.WynikObszarLudzieICel]</p>
+                        <p>Procesy i Zasoby: [@projekt.OcenaKońcowa?.WynikObszarProcesyIZasoby]</p>
+                        <p>Rezultaty: [@projekt.OcenaKońcowa?.WynikObszarRezultaty]</p>
+                    </div>
+
+                    <div class="card-section">
+                        <p>Uzasadnienie: [@projekt.OcenaKońcowa?.UzasadnienieOceniajacego]</p>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+}
+
+@code {
+    private bool isLoggedIn = false;
+    private bool loginError = false;
+    private string login = "admin_biuro";
+    private string haslo = "haslo123";
+
+    private List<Projekt>? projekty;
+
+    private async Task Zaloguj()
+    {
+        isLoggedIn = await ZestawienieService.ZalogujBanalnie(login, haslo);
+        loginError = !isLoggedIn;
+
+        if (isLoggedIn)
+        {
+            projekty = await ZestawienieService.PobierzZestawienieAktualnejEdycjiAsync();
+        }
+    }
+
+    private async Task PobierzPdf()
+    {
+        if (projekty == null || !projekty.Any()) return;
+
+        var pdfBytes = ZestawienieService.GenerujRaportPdf(projekty);
+        using var streamRef = new DotNetStreamReference(stream: new MemoryStream(pdfBytes));
+
+        await JS.InvokeVoidAsync("downloadFileFromStream", $"RaportOcen_Edycja_{projekty.First().EdycjaKonkursu.NumerEdycji}.pdf", streamRef);
+    }
+}

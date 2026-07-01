@@ -4,6 +4,7 @@ using Ipma.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Ipma.Infrastructure.Migrations
 {
     [DbContext(typeof(IpmaDbContext))]
-    partial class IpmaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260624170701_AddAccountForBiuroNagrody")]
+    partial class AddAccountForBiuroNagrody
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -472,7 +475,7 @@ namespace Ipma.Infrastructure.Migrations
                     b.Property<int>("WielkośćZespołu")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("ZmodyfikowanyPrzezId")
+                    b.Property<Guid>("ZmodyfikowanyPrzezId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("ŚredniaOcenaCzłonkówJury")
@@ -521,7 +524,7 @@ namespace Ipma.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("ZmodyfikowanyPrzezId")
+                    b.Property<Guid>("ZmodyfikowanyPrzezId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -561,7 +564,7 @@ namespace Ipma.Infrastructure.Migrations
                     b.Property<Guid>("UtworzonyPrzezId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ZmodyfikowanyPrzezId")
+                    b.Property<Guid>("ZmodyfikowanyPrzezId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -634,7 +637,7 @@ namespace Ipma.Infrastructure.Migrations
                     b.Property<Guid>("UtworzonyPrzezId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid?>("ZmodyfikowanyPrzezId")
+                    b.Property<Guid>("ZmodyfikowanyPrzezId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
@@ -889,7 +892,8 @@ namespace Ipma.Infrastructure.Migrations
                     b.HasOne("Ipma.Domain.Entities.Commons.KontoUżytkownika", "ZmodyfikowanyPrzez")
                         .WithMany()
                         .HasForeignKey("ZmodyfikowanyPrzezId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.OwnsMany("Ipma.Domain.Entities.Owned.PytanieOdJury", "PytaniaOdJury", b1 =>
                         {
@@ -946,7 +950,8 @@ namespace Ipma.Infrastructure.Migrations
                     b.HasOne("Ipma.Domain.Entities.Commons.KontoUżytkownika", "ZmodyfikowanyPrzez")
                         .WithMany()
                         .HasForeignKey("ZmodyfikowanyPrzezId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Projekt");
 
@@ -972,7 +977,8 @@ namespace Ipma.Infrastructure.Migrations
                     b.HasOne("Ipma.Domain.Entities.Commons.KontoUżytkownika", "ZmodyfikowanyPrzez")
                         .WithMany()
                         .HasForeignKey("ZmodyfikowanyPrzezId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Projekt");
 
@@ -998,7 +1004,8 @@ namespace Ipma.Infrastructure.Migrations
                     b.HasOne("Ipma.Domain.Entities.Commons.KontoUżytkownika", "ZmodyfikowanyPrzez")
                         .WithMany()
                         .HasForeignKey("ZmodyfikowanyPrzezId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.Navigation("Projekt");
 

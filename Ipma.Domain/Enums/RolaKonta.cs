@@ -4,5 +4,6 @@ public enum RolaKonta
 {
     Administrator,
     Asesor,
-    Aplikant
+    Aplikant,
+    BiuroNagrody
 }

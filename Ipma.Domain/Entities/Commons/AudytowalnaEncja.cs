@@ -6,7 +6,7 @@ namespace Ipma.Domain.Entities.Commons;
 public abstract record AudytowalnaEncja : BaseEntity
 {
     public Guid UtworzonyPrzezId { get; set; }
-    public Guid ZmodyfikowanyPrzezId { get; set; }
+    public Guid? ZmodyfikowanyPrzezId { get; set; }
     
     public KontoUżytkownika UtworzonyPrzez { get; set; } = null!;
     public KontoUżytkownika? ZmodyfikowanyPrzez { get; set; }

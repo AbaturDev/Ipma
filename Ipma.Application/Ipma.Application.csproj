@@ -6,4 +6,13 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="QuestPDF" Version="2026.6.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Ipma.Domain\Ipma.Domain.csproj" />
+      <ProjectReference Include="..\Ipma.Infrastructure\Ipma.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>

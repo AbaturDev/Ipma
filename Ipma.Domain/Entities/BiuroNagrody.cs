@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Ipma.Domain.Entities;
 
-public sealed record BiuroNagrody : BaseEntity
+public sealed record BiuroNagrody : KontoUżytkownika
 {
     public required string AdresKorespondencyjny { get; set; }
     public required string AdresEmail { get; set; }
@@ -22,6 +22,6 @@ public class BiuroNagrodyConfiguration : BaseEntityConfiguration<BiuroNagrody>
         builder.HasOne(x => x.EdycjaKonkursu)
             .WithOne(e => e.BiuroNagrody)
             .HasForeignKey<BiuroNagrody>(x => x.EdycjaKonkursuId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.ClientCascade);
     }
 }

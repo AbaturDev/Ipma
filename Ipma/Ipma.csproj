@@ -14,6 +14,7 @@
     </ItemGroup>
     
     <ItemGroup>
+      <ProjectReference Include="..\Ipma.Application\Ipma.Application.csproj" />
       <ProjectReference Include="..\Ipma.Infrastructure\Ipma.Infrastructure.csproj" />
     </ItemGroup>
 

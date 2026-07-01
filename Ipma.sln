@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 18
+VisualStudioVersion = 18.6.11822.322 stable
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ipma", "Ipma\Ipma.csproj", "{3D1E8262-9F78-430E-B1A3-BE6153836338}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ipma.Infrastructure", "Ipma.Infrastructure\Ipma.Infrastructure.csproj", "{6C30280E-3C08-4355-8C9B-2EE61377CB15}"
@@ -30,5 +33,8 @@ Global
 		{3DF04015-9B17-4D47-8E76-62BB96989290}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DF04015-9B17-4D47-8E76-62BB96989290}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DF04015-9B17-4D47-8E76-62BB96989290}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

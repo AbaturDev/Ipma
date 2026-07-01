@@ -1,3 +1,4 @@
+using Ipma.Application.Services;
 using Ipma.Components;
 using Ipma.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,8 @@ builder.Services.AddDbContext<IpmaDbContext>(options =>
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+builder.Services.AddScoped<ZestawienieOcenService>();
 
 var app = builder.Build();
 
@@ -30,5 +33,11 @@ app.UseAntiforgery();
 app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<IpmaDbContext>();
+    DbInitializer.SeedData(dbContext);
+}
 
 app.Run();
